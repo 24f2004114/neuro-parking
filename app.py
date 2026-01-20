@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from datetime import datetime
-import os,json
+import os, json
 from sqlalchemy import func
 
 import firebase_admin
@@ -25,8 +25,8 @@ db = SQLAlchemy(app)
 
 if not firebase_admin._apps:
     cred = credentials.Certificate(
-    json.loads(os.environ["FIREBASE_KEY_JSON"])
-)
+        json.loads(os.environ.get("FIREBASE_KEY_JSON"))
+    )
     firebase_admin.initialize_app(cred)
 
 # ================== MODELS ==================
@@ -48,7 +48,9 @@ class ParkingLot(db.Model):
     longitude = db.Column(db.Float)
     price = db.Column(db.Float)
     max_spots = db.Column(db.Integer)
-    spots = db.relationship("Spot", backref="lot", lazy=True, cascade="all, delete")
+    spots = db.relationship(
+        "Spot", backref="lot", lazy=True, cascade="all, delete"
+    )
 
 class Spot(db.Model):
     spot_id = db.Column(db.Integer, primary_key=True)
@@ -75,6 +77,11 @@ with app.app_context():
 
 # ================== HELPERS ==================
 
+ADMIN_EMAILS = os.environ.get(
+    "ADMIN_EMAILS",
+    "chitrakshigulia@gmail.com"
+).split(",")
+
 def verify_token(req):
     auth_header = req.headers.get("Authorization")
     if not auth_header:
@@ -87,7 +94,11 @@ def verify_token(req):
         return None
 
 def is_admin(token_data):
-    return Admin.query.filter_by(firebase_uid=token_data["uid"]).first() is not None
+    if not token_data:
+        return False
+    return Admin.query.filter_by(
+        firebase_uid=token_data.get("uid")
+    ).first() is not None
 
 # ================== ROUTES ==================
 
@@ -95,7 +106,7 @@ def is_admin(token_data):
 def home():
     return jsonify({"status": "Backend running"})
 
-# ---------- WHO AM I ----------
+# ---------- WHO AM I (ROLE RESOLUTION) ----------
 
 @app.route("/api/whoami")
 def whoami():
@@ -103,15 +114,19 @@ def whoami():
     if not token_data:
         return jsonify({"error": "Unauthorized"}), 401
 
-    uid = token_data["uid"]
+    email = token_data.get("email")
+    uid = token_data.get("uid")
 
-    if Admin.query.filter_by(firebase_uid=uid).first():
+    # 🔥 AUTO ADMIN PROVISIONING (DEPLOYMENT SAFE)
+    if email in ADMIN_EMAILS:
+        admin = Admin.query.filter_by(firebase_uid=uid).first()
+        if not admin:
+            admin = Admin(firebase_uid=uid, email=email)
+            db.session.add(admin)
+            db.session.commit()
         return jsonify({"role": "admin"})
 
-    if User.query.filter_by(firebase_uid=uid).first():
-        return jsonify({"role": "user"})
-
-    return jsonify({"role": "unknown"})
+    return jsonify({"role": "user"})
 
 # ---------- SYNC USER ----------
 
