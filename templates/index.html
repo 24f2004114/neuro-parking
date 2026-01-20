@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <title>Neuro Parking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+    <style>
+        .carousel-caption{
+            background-color: rgba(0,0,0,0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="align-items-center font-family: 'Poppins',sans-serif;">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top"  >
+        <div class="container-fluid">
+            <div class="row w-100">
+            <div class="col-3" >
+            <a class="navbar-brand d-flex align-items-center gap-0" href="#" style="font-weight: bold; font-size: 2rem;">
+                <span style="background-color:beige;color: darkolivegreen; padding: 2px 8px; border-radius: 4px;"> NEURO</span>
+                <span style="background-color:peru; color:beige; padding:2px 8px; border-radius: 4px;">
+                    PARKING
+                </span>
+            </a>
+            </div>
+            
+            </div>
+            <div class="row w-100">
+            <div class="col-12">
+                <nav class="navbar navbar-expand-lg">
+                    <div class="container-fluid justify-content-end">
+            <button class="navbar-toggler me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav gap-5">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#about">ABOUT US</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#services">PRODUCT & SERVICES</a> <!-- ye bhhi baki h and isse neeche wale bhi-->
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#contact">CONTACT US</a>
+                    </li>
+                   
+                </ul>
+                <a role="button" class="btn btn-outline-success" href="{{url_for('login')}}">BOOK PARKING</a>
+            </div>
+            </div>
+            </nav>
+            </div>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container mt-5">
+    
+        <div class="text-center align-items-center">
+            <div class="col-md-4 mb-3">
+                <h2>ARE YOU ADMIN ?</h2>
+                <a href="{{url_for('admin')}}" class="btn btn-primary">Admin Login</a>
+                </div>
+                <hr>
+                <pre>
+                       
+
+
+
+                </pre>
+                <div class="col-md-4 mb-3">
+                    <h2>ARE YOU A USER?</h2>
+                <a href="{{url_for('login')}}" class="btn btn-primary">User Login</a>
+                </div>
+                <hr>
+                <pre>
+                       
+
+
+                    
+                </pre>
+            
+                <div class="col-md-4 mb-3">
+                    <H2>ARE YOU A NEW USER?</H2>
+                <a href="{{url_for('registration')}}" class="btn btn-primary">User Signup</a>
+                </div>
+                <hr>
+                <pre>
+                       
+
+
+                    
+                </pre>
+
+            </div>
+    </div>
+
+
+    <div class="container mt-5">
+        
+
+
+
+            <div id="about" class="col-12 mb-4">
+                <div class="card h-100 shadow rounded">
+                    <div class="card-body">
+    
+                <h5 class="card-title">ABOUT US</h5>
+                <p class="card-text">Smart Parking System is a modern, technology-driven platform designed to optimize the parking experience for both users and administrators. 
+                    Our system simplifies the process of finding, booking, and managing parking spots in real time. With a clean user interface, secure access, and advanced data insights, 
+                    we aim to reduce congestion, save time, and enhance efficiency in urban and private parking environments. 
+                    We are committed to delivering smart solutions that bring convenience and control to every parking interaction.</p>
+                </div>
+            </div>
+        </div>
+        <pre>
+                       
+
+
+                    
+        </pre>
+
+
+
+        <div id="services" class="col-12 mb-4">
+            <div class="card h-100 shadow rounded">
+                <div class="card-body">
+
+            <h5 class="card-title">PRODUCT & SERVICES</h5>
+            <p class="card-text">Our Smart Parking System offers a comprehensive suite of tools tailored for efficient parking management. 
+                Key features include real-time spot availability, user-friendly booking and cancellation, admin-level control for lot and spot management, 
+                secure user authentication, and detailed usage analytics with visual reports. 
+                Whether you manage a single parking lot or a network of locations, our solution ensures seamless operations, optimized occupancy, and a smoother experience for both administrators and vehicle owners.</p>
+            </div>
+        </div>
+    </div>
+    <pre>
+                       
+
+
+                    
+    </pre>
+
+
+
+    <div id="contact" class="col-12 mb-4">
+        <div class="card h-100 shadow rounded">
+            <div class="card-body">
+
+        <h5 class="card-title">CONTACT US</h5>
+        <p class="card-text">
+            Have questions, feedback, or need assistance? We’re here to help.
+Feel free to reach out to us via email or through the contact form.
+We’ll get back to you as soon as possible.
+<div>
+    <pre>
+        Email : chitrakshi@gmail.com
+        Phone : 981XXXXXXXX
+    </pre>
+</div></p>
+        </div>
+    </div>
+</div>
+<pre>
+                       
+
+
+                    
+</pre>
+    
+        
+    </div>
+</div>
+
+</body>
+</html>

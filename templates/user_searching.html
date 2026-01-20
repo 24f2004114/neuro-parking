@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Neuro Parking</title>
+</head>
+<body style="font-family: 'Poppins',sans-serif;">
+    <h3>Search Results</h3>
+    {% if lots|length == 0 %}
+            <div>
+                <p>NOt Found</p>
+                <div class="align-items-centre"><a href="{{ url_for( 'user_dashboard' )}}" class="btn btn-outline-primary">BACK</a></div>
+            </div>
+            {% else %}
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Location</th>
+                <th>Availability</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            {% for i in lots %}
+            <tr>
+                <td>{{ i.parking_lot.Lot_ID }}</td>
+                <td>{{ i.parking_lot.Prime_Location_Name }}</td>
+                <td>{{ (i.total - i.occupied) }}</td>
+                <td>{{ i.Price }}</td>
+                <td>
+                    {% if i.available %}
+                    
+                    <a href="{{ url_for('user_booking',spot_id=i.available.Spot_ID) }}" class="btn btn-outline-success">Book</a>
+                    {% else %}
+                    <button class="btn btn-secondary" disabled>No Spot</button>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+                {% endif %}
+</body>
+</html>

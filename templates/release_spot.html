@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/style.css">
+
+    <title>Neuro Parking</title>
+</head>
+<body style="font-family: 'Poppins',sans-serif;">
+    <div style="background-color: darkolivegreen; padding: 10px;">
+        <h1 class="text-center">Release Spot</h1>
+
+    </div >
+
+                
+                <form action="" method="post" class="align-items-center">
+                    <table class="table table-bordered table-striped w-75 text-center">
+                        <thead class="table-dark">
+                        <tr>
+                            <th> Spot ID</th>
+                            <th>Vehicle Number</th>
+                            <th>Parking Time</th>
+                            <th>Release Time</th>
+                            <th>Total cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                
+                        <tr>
+                            <td>{{ booking.spot.Spot_ID }}</td>
+                            <td>{{ booking.vehicle_number }}</td>
+                            <td>{{ booking.booking_time.strftime('%d %B %Y,%I:%M %p') }}</td>
+                            <td>{{ now().strftime('%d %B %Y,%I:%M %p') }}</td>
+                            <td>{{ cost }}</td>
+                        </tr>
+                    </tbody>
+                  
+                </table>
+                
+
+
+
+                    
+                    
+                    <div style="text-align: center;">
+                      <input type="submit" class="btn btn-primary " value="Release">
+                    <a href="{{ url_for('user_dashboard') }}" class="btn btn-outline-success">Cancel</a>
+                    </div>
+                  </form>
+    
+</body>
+</html>

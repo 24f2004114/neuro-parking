@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+
+    <title>Neuro Parking</title>
+</head>
+<body class="font-family:'Poppins',sans-serif">
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top"  >
+            <div class="container-fluid">
+                <a class="navbar-brand d-flex align-items-center gap-1" href="#" style="font-weight: bold; font-size: 2rem;">
+                    <span style="background-color:beige;color: darkolivegreen; padding: 2px 8px; border-radius: 4px;"> Welcome</span>
+                    <span style="background-color:peru; color:beige; padding:2px 8px; border-radius: 4px;">
+                        ADMIN
+                    </span>
+                </a>
+              
+                <button class="navbar-toggler me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                  <div class="d-flex w-100 justify-content-between align-items-center w-100 flex-row flex-nowrap">
+                      
+                          <form action="{{ url_for('searching') }}" method="POST" class="d-flex gap-2 me-3">
+                              
+                                  <select class="form-select form-select-sm" name="SEARCH_BY" id="search" required style="width: 150px;">
+                                    <option value="" disabled selected>Choose option</option>
+                                    <option value="location">Location</option>
+                                      <option value="user_id">User ID</option>
+                                      <option value="parking_lot">Parking lot ID</option>
+                                      <option value="email_ID">Email ID</option>
+                                      <option value="username">Username</option>
+                                      <option value="pincode">Pincode</option>
+                                      <option value="fullname">Full Name</option>
+                                  </select>
+                          
+                                  <div>
+                                    <input type="text" class="form-control" name="search_string" placeholder="enter search value" required>
+                                </div>
+                                <div>
+                                    <button type="submit" class="btn btn-outline-success btn-sm">Search</button>
+                                </div>
+                              
+                            </form>                    
+                      
+  
+                  </div>
+                    <ul class="navbar-nav d-flex flex-row gap-3 align-items-center mb-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{{url_for('admin_dashboard')}}"><h4>Home</h4></a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link active" aria-current="page" href="{{url_for('all_users')}}"><h4>Users</h4></a><!-- this one-->
+                      </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{{url_for('adminsummary')}}"><h4>Summary</h4></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{{url_for('home')}}"><h4>Logout</h4></a>
+                        </li>
+                        <li>
+                          <a href="{{url_for('admin_profile')}}"><h4>Edit/View Profile</h4></a> <!-- this one-->
+                        </li>
+                        
+                       
+                    </ul>
+              
+                </div>
+                </div>
+                </div>
+                </div>
+                </div>
+            </div>
+        </nav>
+
+
+        {% for i in lots %}
+        <div style="width:18rem" class="card shadow rounded-4 text-center m-3">
+            <div class="card-body">
+            <h4 class="card-title">Parking : {{  (loop.index) }}</h4>
+            <h5 class="card-subtitle mb-2">{{ i.parking_lot.Prime_Location_Name }}</h5>
+            <div class="d-flex flex-wrap justify-content-center gap-2 my-2">
+            <a href="/edit/{{ i.parking_lot.Lot_ID }}" class="btn btn-sm btn-outline-primary">Edit</a><!-- this one-->
+            <a href="/delete/{{ i.parking_lot.Lot_ID }}" class="btn btn-sm btn-outline-danger">Delete</a><!-- this one-->
+        </div>
+            <h4 class="fw-bold my-3">Occupied :- {{ i.occupied }} / {{ i.total }}</h4>
+        
+            <div class="d-flex flex-wrap justify-content-center gap-2">
+                {% for spot in i.parking_lot.spots %}
+                {% if spot.Status %}
+                <a href="/spot/{{ spot.Lot_ID }}/{{ spot.Spot_ID }}" class="fw-bold text-success d-flex justify-content-center align-items-center border border-1 rounded" style="width: 35px; height: 35px;">O</a>
+                {% else %}
+                <a href="/spot/{{ spot.Lot_ID }}/{{ spot.Spot_ID }}" class="fw-bold text-primary d-flex justify-content-center align-items-center border border-1 rounded" style="width: 35px; height: 35px;">A</a>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        </div>
+        {% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+      </div>
+      <div class="d-flex flex-column align-items-center my-4">
+        <h2 class="mb-4 text-center">ALL Parking Lots</h2>
+        <div class="d-flex flex-wrap justify-content-center gap-4"></div>
+        {% if spots|length !=0 %}
+        {% for i in spots %}
+        <div style="width: 18rem;" class="card shadow rounded-4 text-center m-3">
+            <div class="card-body">
+            <h4 class="card-title">Parking : {{  (loop.index) }}</h4>
+            <h5 class="card-subtitle mb-2 ">{{ i.parking_lot.Prime_Location_Name }}</h5>
+            <div class="d-flex flex-wrap justify-content-center gap-2 my-2">
+                <a href="/edit/{{ i.parking_lot.Lot_ID }}" class="btn btn-sm btn-outline-primary">Edit</a><!-- this one-->
+                <a href="/delete/{{ i.parking_lot.Lot_ID }}" class="btn btn-sm btn-outline-danger">Delete</a><!-- this one-->
+            </div>
+            <h4 class="fw-bold my-3">Occupied :- {{ i.occupied }} / {{ i.total }}</h4>
+
+            <div class="d-flex flex-wrap justify-content-center gap-2">
+                {% for spot in i.parking_lot.spots %}
+                {% if spot.Status %}
+                <a href="/spot/{{ spot.Lot_ID }}/{{ spot.Spot_ID }}" class="fw-bold text-success d-flex justify-content-center align-items-center border border-1 rounded" style="width: 35px; height: 35px;">O</a>
+                {% else %}
+                <a href="/spot/{{ spot.Lot_ID }}/{{ spot.Spot_ID }}" class="fw-bold text-primary d-flex justify-content-center align-items-center border border-1 rounded" style="width: 35px; height: 35px;">A</a>
+                {% endif %}
+                {% endfor %}
+            </div>
+            </div>
+            </div>
+            {% endfor %}
+            {% elif users|length !=0 %}
+            <table class="table table-bordered table-striped w-75 text-center">
+                <thead class="table-dark">
+                <tr>
+                    <th> ID</th>
+                    <th>Email</th>
+                    <th>Full Name</th>
+                    <th>Address</th>
+                    <th>PinCode</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for i in users %}
+                <tr>
+                    <td>{{ i.ID }}</td>
+                    <td>{{ i.Email }}</td>
+                    <td>{{ i.Fullname }}</td>
+                    <td>{{ i.address }}</td>
+                    <td>{{ i.pincode }}</td>
+                </tr>
+            </tbody>
+            {% endfor %}         
+        </table>
+        {% else %}
+        <div class="d-flex flex-column align-items-center my-4">
+            <h2 class="mb-4 text-center">NO Results Found </h2>
+            </div>            
+            {% endif %}
+      </div>
+</body>
+</html>
